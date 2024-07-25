@@ -1,8 +1,7 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { AppService } from './app.service';
 import { LoggerService } from '@@core/@core-services/logger/logger.service';
-import { ApiKeyAuthGuard } from '@@core/auth/guards/api-key.guard';
+import { Controller, Get } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
@@ -13,21 +12,15 @@ export class AppController {
     this.logger.setContext(AppController.name);
   }
 
+  @ApiOperation({ operationId: 'hello' })
   @Get()
   hello(): string {
     return this.appService.getHello();
   }
 
-  @ApiOperation({ operationId: 'getHealth' })
+  @ApiOperation({ operationId: 'health' })
   @Get('health')
   health(): number {
     return 200;
-  }
-
-  @UseGuards(ApiKeyAuthGuard)
-  @ApiOperation({ operationId: 'getHelloProtected' })
-  @Get('protected')
-  hello2(): string {
-    return `Hello You Are On The Panora API PROTECTED endpoint!`;
   }
 }
